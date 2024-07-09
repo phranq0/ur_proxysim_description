@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.5)
-project(ur_description)
+project(ur_proxysim_description)
 
 find_package(ament_cmake REQUIRED)
 

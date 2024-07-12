@@ -9,6 +9,9 @@
    <xacro:include filename="$(find proxysim_description)/urdf/common_properties.xacro" />
    <xacro:include filename="$(find proxysim_description)/urdf/tof_ring_parametric.xacro"/>
    <xacro:include filename="$(find proxysim_description)/urdf/tof_sensor_parametric.xacro"/>
+
+   <!-- custom models macros -->
+   <xacro:include filename="$(find ur_proxysim_description)/urdf/calibration_plane.xacro"/>
    
    <!-- possible 'ur_type' values: ur3, ur3e, ur5, ur5e, ur10, ur10e, ur16e, ur20, ur30 -->
    <!-- the default value should raise an error in case this was called without defining the type -->
@@ -126,6 +129,18 @@
     pitch="-1.57" 
     yaw="0">
     </xacro:tof_sensor>
+
+    <!-- calibration models -->
+    <xacro:calibration_plane 
+    name="calibration_plane" 
+    base_link="world"
+    x="0" 
+    y="1.0" 
+    z="0" 
+    roll="0" 
+    pitch="0" 
+    yaw="0">
+    </xacro:calibration_plane>
 
    <xacro:if value="$(arg sim_gazebo)">
     <!-- Gazebo plugins -->

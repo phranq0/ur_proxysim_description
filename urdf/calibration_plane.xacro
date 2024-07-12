@@ -1,0 +1,50 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+    <xacro:macro name="calibration_plane" params="name base_link x y z roll pitch yaw">
+
+        <link name="${name}_link">
+            <inertial>
+                <origin
+                    xyz="0 0 0"
+                    rpy="0 0 0" />
+                <mass
+                    value="7.6442" />
+                <inertia
+                    ixx="0.075629"
+                    ixy="3.85E-09"
+                    ixz="-9.5343E-08"
+                    iyy="0.14294"
+                    iyz="1.6837E-11"
+                    izz="0.081345" />
+            </inertial>
+            <visual>
+                <geometry>
+                    <mesh
+                        filename="file://$(find ur_proxysim_description)/meshes/custom/tof_calibration_plane_1m.stl"
+                        scale="0.001 0.001 0.001" />
+                </geometry>
+                <material name="grey" />
+            </visual>
+            <collision>
+                <geometry>
+                    <mesh
+                        filename="file://$(find ur_proxysim_description)/meshes/custom/tof_calibration_plane_1m.stl"
+                        scale="0.001 0.001 0.001" />
+                </geometry>
+            </collision>
+        </link>
+
+        <joint name="${name}_joint" type="fixed">
+            <parent link="${base_link}" />
+            <child link="${name}_link" />
+            <origin xyz="${x} ${y} ${z}" rpy="${roll} ${pitch} ${yaw}" />
+        </joint>
+
+        <gazebo reference="${name}_link">
+            <material>Gazebo/Black</material>
+            <static>true</static>
+        </gazebo>
+
+    </xacro:macro>
+</robot>

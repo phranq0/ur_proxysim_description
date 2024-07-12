@@ -4,7 +4,7 @@ project(ur_proxysim_description)
 find_package(ament_cmake REQUIRED)
 
 install(
-  DIRECTORY config launch meshes rviz urdf test
+  DIRECTORY config launch meshes rviz urdf test gazebo_models
   DESTINATION share/${PROJECT_NAME}
 )
 

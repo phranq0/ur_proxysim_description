@@ -6,7 +6,7 @@ find_package(rclcpp REQUIRED)
 find_package(sensor_msgs REQUIRED)
 find_package(message_filters REQUIRED)
 
-add_executable(tof_cloud_processing_node src/tof_cloud_processing_node.cpp)
+add_executable(tof_cloud_processing_node src/tof_cloud_processing_node.cpp src/custom_sync_policy.hpp)
 ament_target_dependencies(tof_cloud_processing_node
   rclcpp
   sensor_msgs

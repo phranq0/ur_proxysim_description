@@ -18,6 +18,7 @@ namespace point_cloud_merger
         void registerCallback(F callback)
         {
             callback_ = callback;
+            std::cout << "here" << std::endl;
         }
 
         void addSubscriber(std::shared_ptr<message_filters::Subscriber<M>> subscriber)

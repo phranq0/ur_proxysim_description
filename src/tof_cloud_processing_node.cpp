@@ -42,7 +42,7 @@ private:
             std::vector<std::string> topic_types = topic_it.second;
             for (const auto &topic_type : topic_types)
             {
-                if (topic_type == "sensor_msgs/msg/PointCloud2")
+                if (topic_type == "sensor_msgs/msg/PointCloud2" && topic_name != "/merged_point_cloud")
                 {
                     auto callback = [this, topic_count](const sensor_msgs::msg::PointCloud2::SharedPtr msg) {
                         this->pointCloudCallback(topic_count, msg);
@@ -79,14 +79,10 @@ private:
 
         for (const auto &cloud : point_clouds_)
         {
-            // maybe remove later
-            if (cloud->width > 0 && cloud->height > 0)
-            {
                 pcl::PointCloud<pcl::PointXYZ>::Ptr pcl_cloud(new pcl::PointCloud<pcl::PointXYZ>());
                 pcl::fromROSMsg(*cloud, *pcl_cloud);
                 pcl_clouds.push_back(pcl_cloud);
                 header = cloud->header;
-            }
         }
 
         std::cout << pcl_clouds.size() << "\n\n";
@@ -106,7 +102,8 @@ private:
 
         sensor_msgs::msg::PointCloud2 merged_cloud_msg;
         pcl::toROSMsg(*merged_cloud, merged_cloud_msg);
-        merged_cloud_msg.header = header; // Set the ROS2 header
+        merged_cloud_msg.header = header; // set back header
+        merged_cloud_msg.header.frame_id = "tof_ring_shoulder_root_link";
 
         publisher_->publish(merged_cloud_msg);
         //RCLCPP_INFO(this->get_logger(), "Published merged point cloud");

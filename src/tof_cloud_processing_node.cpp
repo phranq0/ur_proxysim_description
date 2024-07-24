@@ -8,6 +8,10 @@
 #include "rclcpp/rclcpp.hpp"
 #include "sensor_msgs/msg/point_cloud2.hpp"
 #include "sensor_msgs/point_cloud2_iterator.hpp"
+#include "pcl_conversions/pcl_conversions.h"
+#include "pcl/point_cloud.h"
+#include "pcl/point_types.h"
+#include "pcl/filters/passthrough.h"
 
 using namespace std::placeholders;
 
@@ -18,8 +22,9 @@ public:
         : Node("point_cloud_merger")
     {
         discoverPointCloudTopics();
+
         publisher_ = this->create_publisher<sensor_msgs::msg::PointCloud2>("/merged_point_cloud", 10);
-        //timer_ = this->create_wall_timer(std::chrono::seconds(1), std::bind(&PointCloudMerger::mergeClouds, this));
+        timer_ = this->create_wall_timer(std::chrono::milliseconds(50), std::bind(&PointCloudMerger::mergeClouds, this));
     }
 
 private:
@@ -49,7 +54,7 @@ private:
                     empty_cloud->height = 1;
                     empty_cloud->width = 0;
                     empty_cloud->is_bigendian = false;
-                    empty_cloud->point_step = sizeof(float) * 3; // x, y, z
+                    empty_cloud->point_step = sizeof(float) * 3; 
                     empty_cloud->row_step = empty_cloud->point_step * empty_cloud->width;
                     empty_cloud->is_dense = false;
                     point_clouds_.push_back(empty_cloud);
@@ -63,70 +68,66 @@ private:
 
     void pointCloudCallback(int index, const sensor_msgs::msg::PointCloud2::SharedPtr msg)
     {
-        RCLCPP_INFO(get_logger(), "Received point cloud on topic %s", subscribers_[index]->get_topic_name());
+        //RCLCPP_INFO(get_logger(), "Received point cloud on topic %s", subscribers_[index]->get_topic_name());
         point_clouds_[index] = msg;
     }
 
     void mergeClouds()
     {
-        std::vector<sensor_msgs::msg::PointCloud2::SharedPtr> valid_clouds;
+        std::vector<pcl::PointCloud<pcl::PointXYZ>::Ptr> pcl_clouds;
+        std_msgs::msg::Header header;
+
         for (const auto &cloud : point_clouds_)
         {
-            if (cloud)
+            // maybe remove later
+            if (cloud->width > 0 && cloud->height > 0)
             {
-                valid_clouds.push_back(cloud);
+                pcl::PointCloud<pcl::PointXYZ>::Ptr pcl_cloud(new pcl::PointCloud<pcl::PointXYZ>());
+                pcl::fromROSMsg(*cloud, *pcl_cloud);
+                pcl_clouds.push_back(pcl_cloud);
+                header = cloud->header;
             }
         }
 
-        if (valid_clouds.empty())
+        std::cout << pcl_clouds.size() << "\n\n";
+
+        if (pcl_clouds.empty())
         {
             RCLCPP_WARN(this->get_logger(), "No valid point clouds to merge");
             return;
         }
 
-        auto merged_cloud = std::make_shared<sensor_msgs::msg::PointCloud2>();
-        merged_cloud->header = valid_clouds[0]->header;
-        merged_cloud->height = 1;
+        pcl::PointCloud<pcl::PointXYZ>::Ptr merged_cloud(new pcl::PointCloud<pcl::PointXYZ>());
 
-        size_t total_points = 0;
-        for (const auto &cloud : valid_clouds)
+        for (const auto &cloud : pcl_clouds)
         {
-            total_points += cloud->width * cloud->height;
+            *merged_cloud += *cloud;
         }
 
-        merged_cloud->width = total_points;
-        merged_cloud->is_bigendian = false;
-        merged_cloud->point_step = valid_clouds[0]->point_step;
-        merged_cloud->row_step = merged_cloud->point_step * merged_cloud->width;
-        merged_cloud->is_dense = true;
-        merged_cloud->data.resize(merged_cloud->row_step * merged_cloud->height);
+        sensor_msgs::msg::PointCloud2 merged_cloud_msg;
+        pcl::toROSMsg(*merged_cloud, merged_cloud_msg);
+        merged_cloud_msg.header = header; // Set the ROS2 header
 
-        sensor_msgs::PointCloud2Iterator<float> out_iter_x(*merged_cloud, "x");
-        sensor_msgs::PointCloud2Iterator<float> out_iter_y(*merged_cloud, "y");
-        sensor_msgs::PointCloud2Iterator<float> out_iter_z(*merged_cloud, "z");
+        publisher_->publish(merged_cloud_msg);
+        //RCLCPP_INFO(this->get_logger(), "Published merged point cloud");
+    }
 
-        for (const auto &cloud : valid_clouds)
+    bool hasFields(const sensor_msgs::msg::PointCloud2::SharedPtr cloud, const std::vector<std::string>& fields)
+    {
+        std::set<std::string> cloud_fields;
+        for (const auto &field : cloud->fields)
         {
-            sensor_msgs::PointCloud2Iterator<float> iter_x(*cloud, "x");
-            sensor_msgs::PointCloud2Iterator<float> iter_y(*cloud, "y");
-            sensor_msgs::PointCloud2Iterator<float> iter_z(*cloud, "z");
-
-            while (iter_x != iter_x.end())
+            cloud_fields.insert(field.name);
+        }
+        
+        for (const auto &field : fields)
+        {
+            if (cloud_fields.find(field) == cloud_fields.end())
             {
-                *out_iter_x = *iter_x;
-                *out_iter_y = *iter_y;
-                *out_iter_z = *iter_z;
-                ++out_iter_x;
-                ++out_iter_y;
-                ++out_iter_z;
-                ++iter_x;
-                ++iter_y;
-                ++iter_z;
+                return false;
             }
         }
-
-        publisher_->publish(*merged_cloud);
-        RCLCPP_INFO(this->get_logger(), "Published merged point cloud");
+        return true;
     }
 
     std::vector<rclcpp::Subscription<sensor_msgs::msg::PointCloud2>::SharedPtr> subscribers_;

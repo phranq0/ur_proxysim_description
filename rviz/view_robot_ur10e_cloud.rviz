@@ -5,8 +5,10 @@ Panels:
     Property Tree Widget:
       Expanded:
         - /Global Options1
+        - /TF1
+        - /TF1/Frames1
         - /PointCloud21
-      Splitter Ratio: 0.4957627058029175
+      Splitter Ratio: 0.6156941652297974
     Tree Height: 403
   - Class: rviz_common/Selection
     Name: Selection
@@ -104,16 +106,66 @@ Visualization Manager:
             Show Axes: false
             Show Trail: false
             Value: true
+          tof_ring_shoulder_root_link:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+            Value: true
+          tof_ring_shoulder_tof0_tof_link:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+            Value: true
+          tof_ring_shoulder_tof1_tof_link:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+            Value: true
+          tof_ring_shoulder_tof2_tof_link:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+            Value: true
+          tof_ring_shoulder_tof3_tof_link:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+            Value: true
+          tof_ring_shoulder_tof4_tof_link:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+            Value: true
+          tof_ring_shoulder_tof5_tof_link:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+            Value: true
+          tof_ring_shoulder_tof6_tof_link:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+            Value: true
+          tof_ring_shoulder_tof7_tof_link:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+            Value: true
+          tof_ring_shoulder_tof8_tof_link:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+            Value: true
+          tof_ring_shoulder_tof9_tof_link:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+            Value: true
           tool0:
             Alpha: 1
             Show Axes: false
             Show Trail: false
           upper_arm_link:
-            Alpha: 1
-            Show Axes: false
-            Show Trail: false
-            Value: true
-          ur_ee_tof_link:
             Alpha: 1
             Show Axes: false
             Show Trail: false
@@ -214,16 +266,66 @@ Visualization Manager:
             Show Axes: false
             Show Trail: false
             Value: true
+          tof_ring_shoulder_root_link:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+            Value: true
+          tof_ring_shoulder_tof0_tof_link:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+            Value: true
+          tof_ring_shoulder_tof1_tof_link:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+            Value: true
+          tof_ring_shoulder_tof2_tof_link:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+            Value: true
+          tof_ring_shoulder_tof3_tof_link:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+            Value: true
+          tof_ring_shoulder_tof4_tof_link:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+            Value: true
+          tof_ring_shoulder_tof5_tof_link:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+            Value: true
+          tof_ring_shoulder_tof6_tof_link:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+            Value: true
+          tof_ring_shoulder_tof7_tof_link:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+            Value: true
+          tof_ring_shoulder_tof8_tof_link:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+            Value: true
+          tof_ring_shoulder_tof9_tof_link:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+            Value: true
           tool0:
             Alpha: 1
             Show Axes: false
             Show Trail: false
           upper_arm_link:
-            Alpha: 1
-            Show Axes: false
-            Show Trail: false
-            Value: true
-          ur_ee_tof_link:
             Alpha: 1
             Show Axes: false
             Show Trail: false
@@ -256,7 +358,7 @@ Visualization Manager:
       Enabled: true
       Frame Timeout: 15
       Frames:
-        All Enabled: true
+        All Enabled: false
         base:
           Value: true
         base_link:
@@ -271,11 +373,31 @@ Visualization Manager:
           Value: true
         shoulder_link:
           Value: true
+        tof_ring_shoulder_root_link:
+          Value: true
+        tof_ring_shoulder_tof0_tof_link:
+          Value: true
+        tof_ring_shoulder_tof1_tof_link:
+          Value: true
+        tof_ring_shoulder_tof2_tof_link:
+          Value: true
+        tof_ring_shoulder_tof3_tof_link:
+          Value: true
+        tof_ring_shoulder_tof4_tof_link:
+          Value: true
+        tof_ring_shoulder_tof5_tof_link:
+          Value: true
+        tof_ring_shoulder_tof6_tof_link:
+          Value: true
+        tof_ring_shoulder_tof7_tof_link:
+          Value: true
+        tof_ring_shoulder_tof8_tof_link:
+          Value: true
+        tof_ring_shoulder_tof9_tof_link:
+          Value: true
         tool0:
           Value: true
         upper_arm_link:
-          Value: true
-        ur_ee_tof_link:
           Value: true
         world:
           Value: true
@@ -304,10 +426,30 @@ Visualization Manager:
                         wrist_3_link:
                           flange:
                             tool0:
-                              ur_ee_tof_link:
-                                {}
+                              {}
                           ft_frame:
                             {}
+                  tof_ring_shoulder_root_link:
+                    tof_ring_shoulder_tof0_tof_link:
+                      {}
+                    tof_ring_shoulder_tof1_tof_link:
+                      {}
+                    tof_ring_shoulder_tof2_tof_link:
+                      {}
+                    tof_ring_shoulder_tof3_tof_link:
+                      {}
+                    tof_ring_shoulder_tof4_tof_link:
+                      {}
+                    tof_ring_shoulder_tof5_tof_link:
+                      {}
+                    tof_ring_shoulder_tof6_tof_link:
+                      {}
+                    tof_ring_shoulder_tof7_tof_link:
+                      {}
+                    tof_ring_shoulder_tof8_tof_link:
+                      {}
+                    tof_ring_shoulder_tof9_tof_link:
+                      {}
       Update Interval: 0
       Value: true
     - Alpha: 1
@@ -325,9 +467,9 @@ Visualization Manager:
       Enabled: true
       Invert Rainbow: false
       Max Color: 255; 255; 255
-      Max Intensity: 0
+      Max Intensity: -999999
       Min Color: 0; 0; 0
-      Min Intensity: 0
+      Min Intensity: 999999
       Name: PointCloud2
       Position Transformer: XYZ
       Selectable: true
@@ -340,7 +482,7 @@ Visualization Manager:
         Filter size: 10
         History Policy: Keep Last
         Reliability Policy: Reliable
-        Value: /ur_ee/ray/pointcloud2
+        Value: /tof_ring_shoulder_tof1/ray/pointcloud2
       Use Fixed Frame: true
       Use rainbow: true
       Value: true
@@ -390,16 +532,16 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz_default_plugins/Orbit
-      Distance: 3.366161823272705
+      Distance: 1.700788974761963
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.05999999865889549
         Stereo Focal Distance: 1
         Swap Stereo Eyes: false
         Value: false
       Focal Point:
-        X: 0.3147866427898407
-        Y: 0.8010149598121643
-        Z: 0.9529541730880737
+        X: 0.05107361450791359
+        Y: 0.11880718916654587
+        Z: 0.6665107607841492
       Focal Shape Fixed Size: true
       Focal Shape Size: 0.05000000074505806
       Invert Z Axis: false

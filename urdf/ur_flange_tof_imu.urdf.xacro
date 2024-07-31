@@ -9,6 +9,7 @@
    <xacro:include filename="$(find proxysim_description)/urdf/common_properties.xacro" />
    <xacro:include filename="$(find proxysim_description)/urdf/tof_ring_parametric.xacro"/>
    <xacro:include filename="$(find proxysim_description)/urdf/tof_sensor_parametric.xacro"/>
+   <xacro:include filename="$(find proxysim_description)/urdf/imu_sensor_parametric.xacro"/>
 
    <!-- custom models macros -->
    <xacro:include filename="$(find ur_proxysim_description)/urdf/calibration_plane.xacro"/>
@@ -106,8 +107,7 @@
      <origin xyz="0 0 0" rpy="0 0 0" />   <!-- position robot in the world -->
    </xacro:ur_robot>
 
-   <!-- Sensors -->
-
+  <!-- Sensors -->
   <!-- flange tof sensor -->
   <xacro:tof_sensor 
   tf_prefix="ur_ee" 
@@ -121,6 +121,16 @@
   </xacro:tof_sensor>
 
   <!-- flange imu sensor -->
+  <xacro:imu_sensor 
+  tf_prefix="ur_ee_imu" 
+  base_link="wrist_2_link"
+  x="0" 
+  y="0" 
+  z="0" 
+  roll="0" 
+  pitch="0" 
+  yaw="0">
+  </xacro:imu_sensor>
 
    <xacro:if value="$(arg sim_gazebo)">
     <!-- Gazebo plugins -->
